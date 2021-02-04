@@ -1,0 +1,53 @@
+server:
+  port: 8085
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+
+resilience4j.circuitbreaker:
+  instances:
+    myCircuitBreakerService1:
+      failureRateThreshold: 60
+      registerHealthIndicator: true
+      ringBufferSizeInClosedState: 5
+      ringBufferSizeInHalfOpenState: 3
+      waitDurationInOpenState: 20s
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+      ignoreExceptions:
+        - com.emir.ordermanagement.exception.MyException
+    myCircuitBreakerService2:
+      failureRateThreshold: 60
+      registerHealthIndicator: true
+      ringBufferSizeInClosedState: 6
+      ringBufferSizeInHalfOpenState: 4
+      waitDurationInOpenState: 20s
+
+resilience4j.retry:
+  instances:
+    myRetryService:
+      maxRetryAttempts: 5
+      waitDuration: 10000
+
+resilience4j.bulkhead:
+  instances:
+    myBulkheadService:
+      maxWaitDuration: 10ms
+      maxConcurrentCall: 30
+
+resilience4j.thread-pool-bulkhead:
+  instances:
+    myBulkheadService:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+
+resilience4j.ratelimiter:
+  instances:
+    myRateLimiter:
+      limitForPeriod: 10
+      limitRefreshPeriod: 100000
+      timeoutDuration: 1000ms
