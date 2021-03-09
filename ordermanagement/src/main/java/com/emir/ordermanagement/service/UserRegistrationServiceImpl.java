@@ -1,4 +1,4 @@
-package com.emir.ordermanagement.service.impl;
+package com.emir.ordermanagement.service;
 
 import com.emir.ordermanagement.dto.SellerDto;
 import com.emir.ordermanagement.service.UserRegistrationService;
@@ -17,11 +17,21 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private final UserRegistrationResilience4j userRegistrationResilience4j;
 
     @Override
-    public String registerSeller(SellerDto sellerDto) {
+    public String registerSellerCircuitBreaker(SellerDto sellerDto) {
         long start = System.currentTimeMillis();
-        String registerSeller = userRegistrationResilience4j.registerSeller(sellerDto);
+        String registerSeller = userRegistrationResilience4j.registerSellerCircuitBreaker(sellerDto);
         log.info("add seller call returned in - {}", System.currentTimeMillis() - start);
         return registerSeller;
+    }
+
+   @Override
+    public String registerSellerRateLimiter(SellerDto sellerDto) {
+        return userRegistrationResilience4j.registerSellerRateLimiter(sellerDto);
+    }
+
+    @Override
+    public String registerSellerRetry(SellerDto sellerDto) {
+        return userRegistrationResilience4j.registerSellerRetry(sellerDto);
     }
 
     @Override
@@ -29,13 +39,4 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         return userRegistrationResilience4j.getSellersList();
     }
 
-    @Override
-    public String registerSellerRateLimiter(SellerDto sellerDto) {
-        return userRegistrationResilience4j.getSellersListRateLimiter(sellerDto);
-    }
-
-    @Override
-    public String registerSellerRetry(SellerDto sellerDto) {
-        return userRegistrationResilience4j.registerSellerRetry(sellerDto);
-    }
 }

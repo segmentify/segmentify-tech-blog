@@ -20,8 +20,9 @@ public class UserRegistrationResilience4j {
     private final RestTemplate restTemplate;
 
     @CircuitBreaker(name = "myCircuitBreakerService1", fallbackMethod = "fallbackForRegisterSeller")
-    public String registerSeller(SellerDto sellerDto) {
-        return restTemplate.postForObject("/registration/addSeller", sellerDto, String.class);
+    public String registerSellerCircuitBreaker(SellerDto sellerDto) {
+        log.info("calling registerSeller()");
+        return restTemplate.postForObject("/registration/add-seller", sellerDto, String.class);
     }
 
     public String fallbackForRegisterSeller(SellerDto sellerDto, Throwable t) {
@@ -30,10 +31,39 @@ public class UserRegistrationResilience4j {
         return "Inside circuit breaker fallback method. Some error occurred while calling service for seller registration";
     }
 
+    public String bulkHeadFallback(SellerDto sellerDto, Throwable t) {
+        log.error("Inside bulkHeadFallback, cause - {}", t.toString());
+        return "Inside bulkHeadFallback method. Some error occurred while calling service for seller registration";
+    }
+
+    // RateLimiter
+    @RateLimiter(name = "myRateLimiter", fallbackMethod = "rateLimiterfallback")
+    public String registerSellerRateLimiter(SellerDto sellerDto) {
+        log.info("calling registerSellerRateLimiter()");
+        return restTemplate.postForObject("/registration/add-seller", sellerDto, String.class);
+    }
+
+    public String rateLimiterfallback(SellerDto sellerDto, Throwable t) {
+        log.error("Inside rateLimiterfallback, cause - {}", t.toString());
+        return "Inside rateLimiterfallback method. Some error occurred while calling service for seller registration";
+    }
+
+    // Retry
+    @Retry(name = "myRetryService", fallbackMethod = "retryfallback")
+    public String registerSellerRetry(SellerDto sellerDto) {
+        log.info("calling registerSellerRetry()");
+        return restTemplate.postForObject("/registration/add-seller", sellerDto, String.class);
+    }
+
+    public String retryfallback(SellerDto sellerDto, Throwable t) {
+        log.error("Inside retryfallback, cause - {}", t.toString());
+        return "Inside retryfallback method. Some error occurred while calling service for seller registration";
+    }
+
     @CircuitBreaker(name = "myCircuitBreakerService2", fallbackMethod = "fallbackForGetSeller")
     public List<SellerDto> getSellersList() {
         log.info("calling getSellerList()");
-        return restTemplate.getForObject("/registration/sellersList", List.class);
+        return restTemplate.getForObject("/registration/seller-list", List.class);
     }
 
     public List<SellerDto> fallbackForGetSeller(Throwable t) {
@@ -45,32 +75,5 @@ public class UserRegistrationResilience4j {
         List<SellerDto> defaultList = new ArrayList<>();
         defaultList.add(sd);
         return defaultList;
-    }
-
-    public String bulkHeadFallback(SellerDto sellerDto, Throwable t) {
-        log.error("Inside bulkHeadFallback, cause - {}", t.toString());
-        return "Inside bulkHeadFallback method. Some error occurred while calling service for seller registration";
-    }
-
-    // RateLimiter
-    @RateLimiter(name = "myRateLimiter", fallbackMethod = "rateLimiterfallback")
-    public String getSellersListRateLimiter(SellerDto sellerDto) {
-        return restTemplate.postForObject("/registration/addSeller", sellerDto, String.class);
-    }
-
-    public String rateLimiterfallback(SellerDto sellerDto, Throwable t) {
-        log.error("Inside rateLimiterfallback, cause - {}", t.toString());
-        return "Inside rateLimiterfallback method. Some error occurred while calling service for seller registration";
-    }
-
-    // Retry
-    @Retry(name = "myRetryService", fallbackMethod = "retryfallback")
-    public String registerSellerRetry(SellerDto sellerDto) {
-        return restTemplate.postForObject("/registration/addSeller", sellerDto, String.class);
-    }
-
-    public String retryfallback(SellerDto sellerDto, Throwable t) {
-        log.error("Inside retryfallback, cause - {}", t.toString());
-        return "Inside retryfallback method. Some error occurred while calling service for seller registration";
     }
 }

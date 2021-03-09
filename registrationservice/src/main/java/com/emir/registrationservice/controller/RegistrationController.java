@@ -14,12 +14,12 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    @PostMapping("/addSeller")
+    @PostMapping("/add-seller")
     public String addSeller(@RequestBody SellerDto sellerDto) {
         return registrationService.addSeller(sellerDto);
     }
 
-    @GetMapping("/sellerList")
+    @GetMapping("/seller-list")
     public List<SellerDto> getSellersList() {
         return registrationService.getSellersList();
     }

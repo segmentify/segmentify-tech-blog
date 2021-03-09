@@ -18,7 +18,7 @@ public class UserRegistrationController {
 
     @PostMapping("/register/seller")
     public String registerAsSeller(@RequestBody SellerDto sellerDto) {
-        return userRegistrationService.registerSeller(sellerDto);
+        return userRegistrationService.registerSellerCircuitBreaker(sellerDto);
     }
 
     @GetMapping("/seller-list")

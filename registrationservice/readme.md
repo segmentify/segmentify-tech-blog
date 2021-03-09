@@ -9,24 +9,24 @@ docker build -t registrationservice:1.0 .
 
 Registration Service Docker run command
 ```shell script
-docker run -d -p 8086:8086 --rm registrationservice:1.0
+docker run -d -p 8081:8081 --rm registrationservice:1.0
 ```
 
 ***
 ##### Registration service endpoints
-> [localhost:8086](http://localhost:8086)
+> [localhost:8081](http://localhost:8081)
 >
-> [localhost:8086/slow](http://localhost:8086/slow)
+> [localhost:8081/slow](http://localhost:8081/slow)
 >
-> [localhost:8086/error](http://localhost:8086/error)
+> [localhost:8081/error](http://localhost:8081/error)
 >
-> [localhost:8086/erratic](http://localhost:8086/erratic)
+> [localhost:8081/erratic](http://localhost:8081/erratic)
 >
 ---
 >
-> [localhost:8086/registration](http://localhost:8086/registration)
+> [localhost:8081/registration](http://localhost:8081/registration)
 >
-> [localhost:8086/registration/addSeller](http://localhost:8086/registration/addSeller)
+> [localhost:8081/registration/add-seller](http://localhost:8081/registration/add-seller)
 >
 ***
 

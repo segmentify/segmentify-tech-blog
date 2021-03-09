@@ -10,10 +10,9 @@ import java.util.List;
 @Setter
 @ToString
 public class SellerDto {
-
     private long id;
     private String firstName;
     private String lastName;
-    private String emailId;
-    private List<Item> itemsSold;
+    private String email;
+    private List<ItemDto> itemsSold;
 }

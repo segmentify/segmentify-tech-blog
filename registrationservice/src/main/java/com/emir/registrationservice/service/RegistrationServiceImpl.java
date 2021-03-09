@@ -1,10 +1,11 @@
 package com.emir.registrationservice.service;
 
-import com.emir.registrationservice.dto.Item;
+import com.emir.registrationservice.dto.ItemDto;
 import com.emir.registrationservice.dto.SellerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +19,19 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public String addSeller(SellerDto sellerDto) {
-        if (sellerDto.getEmailId() == null || sellerDto.getEmailId().isEmpty()) {
-            log.error("email id which is mandatory field is null/empty");
-            throw new RuntimeException("Seller mail id is not valid. Please enter valid Id");
+        if (!StringUtils.hasText(sellerDto.getEmail())) {
+            log.error("email is empty");
+            throw new RuntimeException("Seller mail is not valid");
         }
         sellerDto.setId(getSellersList().size() + 1);
         boolean isSellerAdded = registrationRepository.addSeller(sellerDto);
         String message;
         if (isSellerAdded) {
-            message = "Registration successful. Your registration id is - '" + sellerDto.getId() ;
+            message = "Successfully registered. Your id is: " + sellerDto.getId() ;
         } else {
             message = "There was some problem in registering the seller. Please try after some time!!";
         }
-        log.info("Add seller status - {} and message - {}", isSellerAdded, message);
+        log.info("Add seller message - {}", message);
         return message;
     }
 
@@ -47,15 +48,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         sellerDto.setId(123456l);
         sellerDto.setFirstName("Emir");
         sellerDto.setLastName("Gökdemir");
-        sellerDto.setEmailId("gokdeemir@gmail.com");
+        sellerDto.setEmail("a@segmentify.com");
 
-        Item item = new Item();
+        ItemDto item = new ItemDto();
         item.setId(3456l);
         item.setName("Apple");
         item.setCategory("Computer");
         item.setPrice(12.5);
 
-        List<Item> items = new ArrayList<>();
+        List<ItemDto> items = new ArrayList<>();
         items.add(item);
 
         sellerDto.setItemsSold(items);

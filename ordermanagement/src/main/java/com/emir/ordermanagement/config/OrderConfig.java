@@ -9,7 +9,7 @@ import org.springframework.web.util.UriTemplateHandler;
 
 @Configuration
 public class OrderConfig {
-    private static final String baseUrl = "http://localhost:8086";
+    private static final String baseUrl = "http://localhost:8081";
 
     @Bean
     RestTemplate restTemplate(RestTemplateBuilder builder) {

@@ -15,18 +15,18 @@ public class MessageController {
 
     @GetMapping("/")
     public String okay() {
-        return "I'm fine.";
+        return "Service is working fine";
     }
 
     @GetMapping("/slow")
     public String slow() throws InterruptedException {
         Thread.sleep(DELAY);
-        return "I'm fine, just slow";
+        return "Service is working SLOWLY";
     }
 
     @GetMapping("/error")
     public String error() {
-        throw new RuntimeException("I'm definitely not fine");
+        throw new RuntimeException("Service is not available");
     }
 
     @GetMapping("/erratic")
@@ -37,6 +37,6 @@ public class MessageController {
             throw new RuntimeException("I'm erratic");
         }
         log.info("ok");
-        return "For now I'm ok";
+        return "Service is working fine for now";
     }
 }

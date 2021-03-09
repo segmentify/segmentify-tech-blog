@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface UserRegistrationService {
 
-    String registerSeller(SellerDto sellerDto);
-
-    List<SellerDto> getSellersList();
+    String registerSellerCircuitBreaker(SellerDto sellerDto);
 
     String registerSellerRateLimiter(SellerDto sellerDto);
 
     String registerSellerRetry(SellerDto sellerDto);
+
+    List<SellerDto> getSellersList();
 }

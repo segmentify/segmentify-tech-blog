@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 "1.0",
                 "Terms of service for using Order management application",
                 new Contact("Emir Gökdemir", "https://www.segmentify.com",
-                        "gokdeemir@gmail.com"),
+                        "emir.gokdemir@segmentify.com"),
                 "MIT Licence",
                 "https://opensource.org/licenses/MIT",
                 new ArrayList<>()
