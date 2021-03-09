@@ -8,7 +8,7 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.emir</groupId>
+    <groupId>com.segmentify</groupId>
     <artifactId>ordermanagement</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ordermanagement</name>

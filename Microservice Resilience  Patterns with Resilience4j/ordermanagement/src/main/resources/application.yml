@@ -18,7 +18,7 @@ resilience4j.circuitbreaker:
         - java.util.concurrent.TimeoutException
         - org.springframework.web.client.ResourceAccessException
       ignoreExceptions:
-        - com.emir.ordermanagement.exception.MyException
+        - com.segmentify.ordermanagement.exception.MyException
     myCircuitBreakerService2:
       failureRateThreshold: 60
       registerHealthIndicator: true
