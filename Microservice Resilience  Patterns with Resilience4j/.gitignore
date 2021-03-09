@@ -37,7 +37,7 @@ _ReSharper*/
 #Project files
 [Bb]uild/
 
-*/target/
+ordermanagement/target/
 */mvnw
 */mvnw.cmd
 */*.iml

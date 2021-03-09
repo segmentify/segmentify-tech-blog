@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   register-service:
-    build: ./registrationservice
+    build: registrationservice
     restart: always
     tty:
       true
@@ -11,7 +11,7 @@ services:
       - 8081:8081
     container_name: register_app
   order-service:
-    build: ./ordermanagement
+    build: ordermanagement
     restart: always
     tty:
       true
