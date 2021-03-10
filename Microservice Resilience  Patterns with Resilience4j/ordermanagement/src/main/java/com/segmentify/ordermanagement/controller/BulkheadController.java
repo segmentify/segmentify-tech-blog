@@ -49,7 +49,7 @@ public class BulkheadController {
     }
 
     private String registerPayment() {
-        return "The message was" + restTemplate.getForObject("/slow", String.class);
+        return "The message was " + restTemplate.getForObject("/slow", String.class);
     }
 
 }
