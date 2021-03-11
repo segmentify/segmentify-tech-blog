@@ -39,16 +39,3 @@ resilience4j.ratelimiter:
       limitForPeriod: 10
       limitRefreshPeriod: 100000
       timeoutDuration: 1000ms
-
-resilience4j.bulkhead:
-  instances:
-    myBulkheadService:
-      maxWaitDuration: 10ms
-      maxConcurrentCall: 30
-
-resilience4j.thread-pool-bulkhead:
-  instances:
-    myBulkheadService:
-      maxThreadPoolSize: 1
-      coreThreadPoolSize: 1
-      queueCapacity: 1

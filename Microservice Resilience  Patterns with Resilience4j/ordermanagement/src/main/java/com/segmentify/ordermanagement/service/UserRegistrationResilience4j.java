@@ -71,9 +71,4 @@ public class UserRegistrationResilience4j {
         defaultList.add(sd);
         return defaultList;
     }
-
-    public String bulkHeadFallback(SellerDto sellerDto, Throwable t) {
-        log.error("Inside bulkHeadFallback, cause - {}", t.toString());
-        return "Inside bulkHeadFallback method. Some error occurred while calling service for seller registration";
-    }
 }

@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   register-service:
-    build: registrationservice
+    build: registration
     restart: always
     tty:
       true

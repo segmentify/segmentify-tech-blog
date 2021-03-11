@@ -2,13 +2,13 @@ package com.segmentify.ordermanagement.controller;
 
 import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.bulkhead.BulkheadConfig;
-import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 @RestController
@@ -20,25 +20,25 @@ public class BulkheadController {
 
     public BulkheadController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.bulkhead = createBulkHead(10);
+        this.bulkhead = createBulkHead();
     }
 
     @GetMapping("/bulkhead")
-    public String bulkhead() {
+    public void bulkhead() {
         // decorate call with bulkhead
         Supplier<String> register = Bulkhead.decorateSupplier(bulkhead, this::registerPayment);
         // execute the call
-        Try<String> result = Try.ofSupplier(register);
-        if (result.isSuccess()) {
-            return result.get();
-        } else {
-            return "default-response";
+        for (int i = 0; i < 10; i++) {
+            log.info("loop is called i:" + i);
+            CompletableFuture
+                    .supplyAsync(register)
+                    .thenAccept(log::info);
         }
     }
 
-    private Bulkhead createBulkHead(int maxConcurrent) {
+    private Bulkhead createBulkHead() {
         BulkheadConfig bulkheadConfig = BulkheadConfig.custom()
-                .maxConcurrentCalls(maxConcurrent)
+                .maxConcurrentCalls(3)
                 .maxWaitDuration(Duration.ofMillis(100))
                 .build();
         Bulkhead bulkhead = Bulkhead.of("registrationService", bulkheadConfig);
@@ -49,7 +49,7 @@ public class BulkheadController {
     }
 
     private String registerPayment() {
-        return "The message was " + restTemplate.getForObject("/slow", String.class);
+        return "Payment is registered " + restTemplate.getForObject("/slow", String.class);
     }
 
 }
